@@ -29,9 +29,10 @@ module.exports = {
   async createThought(req, res) {
     try {
       const newThought = await Thoughts.create(req.body);
+      res.json(newThought);
       const updateUser = await Users.findOneAndUpdate(
         { _id: req.body.userId },
-        { $push: { thoughts: newThought._id } },
+        { $push: { Thoughts: newThought._id } },
         { new: true }
       );
 
@@ -41,6 +42,7 @@ module.exports = {
 
       res.json({ message: "Thought created" });
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
